@@ -35,6 +35,7 @@
       <geometry>
         <box size=".4 .2 .1"/>
       </geometry>
+      <material name="white"/>
     </visual>
 
 
@@ -50,6 +51,7 @@
       <geometry>
         <sphere radius="0.05"/>
       </geometry>
+      <material name="white"/>
     </visual>
 
     <collision name='front_caster_collision'>
@@ -64,6 +66,7 @@
       <geometry>
         <sphere radius="0.05"/>
       </geometry>
+      <material name="white"/>
     </visual>
 
   </link>
@@ -79,18 +82,19 @@
       />
     </inertial>
 
-    <collision name='collision'>
+    <collision>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
         <box size=".4 .2 .1"/>
       </geometry>
     </collision>
 
-    <visual name='wheel_visual'>
+    <visual>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
         <cylinder length="0.05" radius="0.1" />
       </geometry>
+      <material name="green"/>
     </visual>
   </link>
 
@@ -105,18 +109,19 @@
       />
     </inertial>
 
-    <collision name='collision'>
+    <collision>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
         <box size=".4 .2 .1"/>
       </geometry>
     </collision>
 
-    <visual name='wheel_visual'>
+    <visual>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
         <cylinder length="0.05" radius="0.1" />
       </geometry>
+      <material name="green"/>
     </visual>
   </link>
 
@@ -138,4 +143,74 @@
     <dynamics damping="1.0" friction="1.0"/>
   </joint>
   
+
+  <link name='camera'>
+    <inertial>
+      <mass value=".1"/>
+      <origin xyz=".05 .05 .05" rpy="0 0 0"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"
+      />
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".05 .05 .05" />
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".05 .05 .05" />
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz=".2 0 0" rpy="0 0 0" />
+    <parent link="chassis"/>
+    <child link="camera" />
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+  </joint>
+
+
+  <link name='hokuyo'>
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"          
+      />
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size=".1 .1 .1" />
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://my_robot/meshes/hokuyo.dae"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+
+  <joint name="hokuyo_joint" type="fixed">
+    <origin xyz=".15 0 .1" rpy="0 0 0" />
+    <parent link="chassis"/>
+    <child link="hokuyo" />
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+  </joint>
+
 </robot>
