@@ -217,4 +217,7 @@
     <child link="hokuyo" />
   </joint>
 
+  <gazebo reference="left_wheel"><material>Gazebo/Green</material></gazebo>
+  <gazebo reference="right_wheel"><material>Gazebo/Green</material></gazebo>
+
 </robot>
