@@ -181,7 +181,6 @@
     <origin xyz=".2 0 0" rpy="0 0 0" />
     <parent link="chassis"/>
     <child link="camera" />
-    <axis xyz="0 1 0" rpy="0 0 0"/>
   </joint>
 
 
@@ -216,7 +215,6 @@
     <origin xyz=".15 0 .1" rpy="0 0 0" />
     <parent link="chassis"/>
     <child link="hokuyo" />
-    <axis xyz="0 1 0" rpy="0 0 0"/>
   </joint>
 
 </robot>
