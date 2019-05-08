@@ -52,12 +52,15 @@ void process_image_callback(const sensor_msgs::Image img)
     if (white_pixel_found) {
         switch (white_pixel_pos) {
             case -1:
-                drive_robot(0.5, -0.5);
-                break;
-            case 1:
+                // Drive left
                 drive_robot(0.5, 0.5);
                 break;
+            case 1:
+                // Drive right
+                drive_robot(0.5, -0.5);
+                break;
             case 0:
+                // Drive forward
                 drive_robot(0.5, 0);
                 break;
         }
