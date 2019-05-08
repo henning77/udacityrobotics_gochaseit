@@ -33,9 +33,10 @@ void process_image_callback(const sensor_msgs::Image img)
     int white_pixel_pos = 0;
 
     for (int row = 0; row < img.height; row++) {
-        for (int col = 0; col < img.width; col++) {
+        for (int col = 0; col < img.step; col++) {
             if (img.data[row * img.step + col] == white_pixel) {
                 white_pixel_found = true;
+
                 if (col < img.width / 3) {
                     white_pixel_pos = -1;
                 } else if (col > img.width * 2 / 3) {
