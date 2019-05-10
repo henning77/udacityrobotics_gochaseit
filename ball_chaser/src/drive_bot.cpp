@@ -14,14 +14,12 @@ bool handle_drive_request(ball_chaser::DriveToTarget::Request& req,
 {
     ROS_INFO("DriveToTarget request received - j1:%1.2f, j2:%1.2f", (float)req.linear_x, (float)req.angular_z);
 
-    geometry_msgs::Twist motor_command;    
-    motor_command.linear.x = req.linear_x;
-    motor_command.angular.z = req.angular_z;
-    motor_command_publisher.publish(motor_command);
+    // TODO Publish velocities to topic
+    // motor_command_publisher.publish(...);
 
-    // Return a response message
-    res.msg_feedback = "Wheel velocities set - linear.x: " + std::to_string(motor_command.linear.x) + " , angular.z: " + std::to_string(motor_command.angular.z);
-    ROS_INFO_STREAM(res.msg_feedback);
+    // TODO Return a response message
+    // res.msg_feedback = "...";
+    // ROS_INFO_STREAM(res.msg_feedback);
 
     return true;
 }
