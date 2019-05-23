@@ -20,8 +20,6 @@ void drive_robot(float lin_x, float ang_z)
 // This callback function continuously executes and reads the image data
 void process_image_callback(const sensor_msgs::Image img)
 {
-    int white_pixel = 255;
-
     // Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
@@ -29,41 +27,28 @@ void process_image_callback(const sensor_msgs::Image img)
 
     bool white_pixel_found = false;
 
-    // -1=left, 0=mid, 1=right
+    // Image segmented in 5 segments
+    // -2=far left, -1=left, 0=mid, 1=right, 2=far right
     int white_pixel_pos = 0;
+    int segment_width = img.width / 5;
 
     for (int row = 0; row < img.height; row++) {
-        for (int col = 0; col < img.step; col++) {
-            if (img.data[row * img.step + col] == white_pixel) {
+        for (int col = 0; col < img.step; col+=3) {
+            // Check that r/g/b are all 255
+            if (img.data[row * img.step + col] == 255
+                && img.data[row * img.step + col + 1] == 255
+                && img.data[row * img.step + col + 2] == 255) {
                 white_pixel_found = true;
+                white_pixel_pos = ( (col/3) / segment_width) - 2;
 
-                if (col < img.width / 3) {
-                    white_pixel_pos = -1;
-                } else if (col > img.width * 2 / 3) {
-                    white_pixel_pos = 1;
-                } else {
-                    white_pixel_pos = 0;
-                }
+                ROS_INFO_STREAM("Found white: row=" + std::to_string(row) + " col=" + std::to_string(col) + " segment=" + std::to_string(white_pixel_pos));
                 break;
             }
         }
     }
 
-    if (white_pixel_found) {
-        switch (white_pixel_pos) {
-            case -1:
-                // Drive left
-                drive_robot(0.5, 0.5);
-                break;
-            case 1:
-                // Drive right
-                drive_robot(0.5, -0.5);
-                break;
-            case 0:
-                // Drive forward
-                drive_robot(0.5, 0);
-                break;
-        }
+    if (white_pixel_found) {        
+        drive_robot(0.5, -white_pixel_pos);
     } else {
         drive_robot(0, 0);
     }
